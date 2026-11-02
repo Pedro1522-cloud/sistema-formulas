@@ -76,10 +76,9 @@ src/main/resources/
 
 Abra a pasta do projeto no VS Code.
 
-No terminal PowerShell, execute:
-
-    .\mvnw.cmd spring-boot:run
-
+No terminal ```powershell
+.\mvnw.cmd spring-boot:run
+```
 Após iniciar o Spring Boot, acesse:
 
 http://localhost:8080/
