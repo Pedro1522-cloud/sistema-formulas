@@ -11,14 +11,14 @@ public class TesteArvore {
 
     public static void main(String[] args) {
 
-        
+
         FormulaService formulaService = new FormulaService();
 
         // 2. Criando o produto principal
         ItemFormula caneta = new ItemFormula(
                 "Caneta", null, 1, 2.50);
 
-        
+
         ItemFormula tinta = new ItemFormula(
                 "Tinta", "Caneta", 1, 0.80);
 
@@ -28,32 +28,32 @@ public class TesteArvore {
         ItemFormula tampa = new ItemFormula(
                 "Tampa", "Caneta", 1, 0.70);
 
-        
+
         ItemFormula pigmento = new ItemFormula(
                 "Pigmento", "Tinta", 1, 0.30);
 
         ItemFormula solvente = new ItemFormula(
                 "Solvente", "Tinta", 1, 0.50);
 
-        
+
         ItemFormula plasticoCorpo = new ItemFormula(
                 "Plástico", "Corpo", 1, 0.70);
 
         ItemFormula clip = new ItemFormula(
                 "Clip", "Corpo", 1, 0.30);
 
-        
+
         ItemFormula plasticoTampa = new ItemFormula(
                 "Plástico", "Tampa", 1, 0.50);
 
         ItemFormula vedacao = new ItemFormula(
                 "Vedação", "Tampa", 1, 0.20);
 
-        
+
         TreeNode<ItemFormula> raiz =
                 new TreeNode<>(caneta);
 
-        
+
         TreeNode<ItemFormula> noTinta =
                 new TreeNode<>(tinta);
 
@@ -63,46 +63,46 @@ public class TesteArvore {
         TreeNode<ItemFormula> noTampa =
                 new TreeNode<>(tampa);
 
-        
+
         noTinta.adicionarFilho(
                 new TreeNode<>(pigmento));
 
         noTinta.adicionarFilho(
                 new TreeNode<>(solvente));
 
-        
+
         noCorpo.adicionarFilho(
                 new TreeNode<>(plasticoCorpo));
 
         noCorpo.adicionarFilho(
                 new TreeNode<>(clip));
 
-        
+
         noTampa.adicionarFilho(
                 new TreeNode<>(plasticoTampa));
 
         noTampa.adicionarFilho(
                 new TreeNode<>(vedacao));
 
-        
+
         raiz.adicionarFilho(noTinta);
         raiz.adicionarFilho(noCorpo);
         raiz.adicionarFilho(noTampa);
 
-        
+
         System.out.println(
                 "Árvore completa da fórmula da Caneta:");
 
         formulaService.printTree(raiz, 0);
 
-        
+
         double total = formulaService.calcularTotal(raiz);
 
         System.out.printf(
                 "\nCusto total da Caneta: R$ %.2f%n",
                 total);
 
-        
+
         int quantidadeProduzir;
 
         try (Scanner scanner = new Scanner(System.in)) {
@@ -125,7 +125,7 @@ public class TesteArvore {
             }
         }
 
-        
+
         System.out.println(
                 "\nExplosão dos componentes para "
                 + quantidadeProduzir + " canetas:");
@@ -135,7 +135,7 @@ public class TesteArvore {
                 quantidadeProduzir,
                 raiz.getValor().getNome());
 
-        
+
         double custoProducao =
                 total * quantidadeProduzir;
 
@@ -143,7 +143,7 @@ public class TesteArvore {
                 "\nCusto total da produção: R$ %.2f%n",
                 custoProducao);
 
-        
+
         System.out.println(
                 "\n=== ATUALIZAÇÃO DE PREÇO ===");
 
@@ -153,7 +153,7 @@ public class TesteArvore {
                 "Novo preço do Pigmento: R$ %.2f%n",
                 pigmento.getValorUnitario());
 
-        
+
         double novoCusto =
                 formulaService.calcularTotal(raiz);
 
@@ -161,7 +161,7 @@ public class TesteArvore {
                 "Novo custo da Caneta: R$ %.2f%n",
                 novoCusto);
 
-        
+
         double novoCustoProducao =
                 novoCusto * quantidadeProduzir;
 
