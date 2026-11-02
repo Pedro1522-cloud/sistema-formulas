@@ -1,0 +1,223 @@
+[
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sistema de Fórmulas de Produtos</title>
+
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+</head>
+
+<body>
+
+<header class="cabecalho">
+    <div class="container">
+        <h1>Sistema de Fórmulas</h1>
+        <p>Gestão de produtos, componentes e custos de produção</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <div id="mensagem" class="mensagem" role="status" hidden></div>
+
+    <div class="grade">
+
+        <!-- CADASTRO DE PRODUTOS -->
+        <section class="painel">
+            <h2>Produtos</h2>
+
+            <h3>Cadastrar novo produto</h3>
+
+            <form id="novoProdutoForm">
+                <label for="novoProdutoNome">Nome</label>
+                <input id="novoProdutoNome" required maxlength="120">
+
+                <label for="novoProdutoDescricao">Descrição</label>
+                <input id="novoProdutoDescricao">
+
+                <button type="submit">Cadastrar produto</button>
+            </form>
+
+            <hr>
+
+            <h3>Gerenciar produto</h3>
+
+            <label for="produtoSelecionado">Selecionar produto</label>
+            <select id="produtoSelecionado"></select>
+
+            <label for="editarProdutoNome">Nome</label>
+            <input id="editarProdutoNome">
+
+            <label for="editarProdutoDescricao">Descrição</label>
+            <input id="editarProdutoDescricao">
+
+            <div class="acoes">
+                <button type="button" id="atualizarProduto">
+                    Atualizar
+                </button>
+
+                <button type="button"
+                        id="excluirProduto"
+                        class="perigo">
+                    Excluir
+                </button>
+            </div>
+        </section>
+
+        <!-- CADASTRO DE COMPONENTES -->
+        <section class="painel">
+            <h2>Componentes</h2>
+
+            <p class="descricao">
+                Cadastre os componentes da fórmula do produto selecionado.
+            </p>
+
+            <form id="componenteForm">
+
+                <label for="componenteNome">Nome do componente</label>
+                <input id="componenteNome" required maxlength="120">
+
+                <div class="grade-campos">
+                    <div>
+                        <label for="componenteQuantidade">Quantidade</label>
+                        <input type="number"
+                               id="componenteQuantidade"
+                               min="1" step="1"
+                               value="1" required>
+                    </div>
+
+                    <div>
+                        <label for="componenteValor">Valor unitário (R$)</label>
+                        <input type="number"
+                               id="componenteValor"
+                               min="0" step="0.01"
+                               value="0" required>
+                    </div>
+                </div>
+
+                <label for="componentePai">Componente pai</label>
+                <select id="componentePai"></select>
+
+                <div class="acoes">
+                    <button type="submit" id="salvarComponente">
+                        Cadastrar componente
+                    </button>
+
+                    <button type="button"
+                            id="atualizarPreco"
+                            class="secundario"
+                            disabled>
+                        Atualizar só preço
+                    </button>
+
+                    <button type="button"
+                            id="cancelarEdicao"
+                            class="secundario">
+                        Limpar
+                    </button>
+                </div>
+
+            </form>
+        </section>
+    </div>
+
+    <!-- LISTA DE COMPONENTES -->
+    <section class="painel">
+        <h2>Componentes cadastrados</h2>
+
+        <div class="tabela-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Componente pai</th>
+                        <th>Quantidade</th>
+                        <th>Valor unitário</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tabelaComponentes"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- CALCULO DA FORMULA -->
+    <section class="painel">
+        <h2>Explosão e custo da produção</h2>
+
+        <form id="formulaForm" class="formulario-horizontal">
+            <div>
+                <label for="quantidadeProduzir">
+                    Quantidade a produzir
+                </label>
+                <input type="number"
+                       id="quantidadeProduzir"
+                       min="1"
+                       step="1"
+                       value="50"
+                       required>
+            </div>
+
+            <button type="submit">Calcular produção</button>
+        </form>
+
+        <div id="resultadoFormula" hidden>
+
+            <div class="resumo">
+                <div>
+                    <span>Produto</span>
+                    <strong id="resultadoNome">—</strong>
+                </div>
+
+                <div>
+                    <span>Custo unitário</span>
+                    <strong id="resultadoUnitario">—</strong>
+                </div>
+
+                <div>
+                    <span>Custo da produção</span>
+                    <strong id="resultadoTotal">—</strong>
+                </div>
+            </div>
+
+            <div class="grade">
+                <div>
+                    <h3>Árvore da fórmula</h3>
+                    <div id="arvoreVisual"></div>
+                </div>
+
+                <div>
+                    <h3>Explosão de matérias-primas</h3>
+                    <div class="tabela-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Matéria-prima</th>
+                                    <th>Quantidade</th>
+                                    <th>Custo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaExplosao"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer class="rodape">
+    Sistema de Fórmulas de Produtos | Java 21 + Spring Boot + H2
+</footer>
+
+</body>
+</html>
+]

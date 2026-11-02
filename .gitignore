@@ -1,0 +1,60 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+# Arquivos compilados
+target/
+*.class
+
+# Banco H2 local
+*.mv.db
+*.trace.db
+*.lock.db
+
+# Configuracoes locais dos editores
+.vscode/
+.idea/
+*.iml
+
+# Logs e arquivos temporarios
+*.log
+*.tmp
+
+# Variaveis de ambiente
+.env
+.env.*
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db

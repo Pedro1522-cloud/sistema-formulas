@@ -1,0 +1,117 @@
+package com.projeto.sistemaformulas.service;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.projeto.sistemaformulas.dto.ComponenteResponse;
+import com.projeto.sistemaformulas.entity.Componente;
+import com.projeto.sistemaformulas.entity.Produto;
+import com.projeto.sistemaformulas.repository.ComponenteRepository;
+import com.projeto.sistemaformulas.repository.ProdutoRepository;
+
+@Service
+public class ComponenteService {
+
+    private final ComponenteRepository componenteRepository;
+    private final ProdutoRepository produtoRepository;
+
+    public ComponenteService(
+            ComponenteRepository componenteRepository,
+            ProdutoRepository produtoRepository) {
+
+        this.componenteRepository = componenteRepository;
+        this.produtoRepository = produtoRepository;
+    }
+
+    // 1. Cadastrar componente
+    @Transactional
+    public ComponenteResponse cadastrar(
+            Long produtoId,
+            Long componentePaiId,
+            String nome,
+            Integer quantidade,
+            BigDecimal valorUnitario) {
+
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException(
+                    "O nome do componente é obrigatório.");
+        }
+
+        if (quantidade == null || quantidade <= 0) {
+            throw new IllegalArgumentException(
+                    "A quantidade deve ser maior que zero.");
+        }
+
+        if (valorUnitario == null ||
+                valorUnitario.signum() < 0) {
+            throw new IllegalArgumentException(
+                    "O valor não pode ser negativo.");
+        }
+
+        if (produtoId == null) {
+            throw new IllegalArgumentException(
+                    "O produto é obrigatório.");
+        }
+
+        Produto produto = produtoRepository
+                .findById(produtoId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Produto não encontrado."));
+
+        Componente componentePai = null;
+
+        if (componentePaiId != null) {
+
+            componentePai = componenteRepository
+                    .findById(componentePaiId)
+                    .orElseThrow(() ->
+                            new IllegalArgumentException(
+                                    "Componente pai não encontrado."));
+
+            if (!componentePai.getProduto().getId()
+                    .equals(produto.getId())) {
+
+                throw new IllegalArgumentException(
+                        "O componente pai pertence a outro produto.");
+            }
+        }
+
+        Componente componente = new Componente(
+                nome,
+                quantidade,
+                valorUnitario,
+                produto,
+                componentePai);
+
+        Componente salvo = componenteRepository.save(componente);
+
+        return ComponenteResponse.fromEntity(salvo);
+    }
+
+    // 2. Listar componentes
+    @Transactional(readOnly = true)
+    public List<ComponenteResponse> listar() {
+
+        return componenteRepository.findAll()
+                .stream()
+                .map(ComponenteResponse::fromEntity)
+                .toList();
+    }
+
+    // 3. Buscar componente pelo ID
+    @Transactional(readOnly = true)
+    public ComponenteResponse buscarPorId(Long id) {
+
+        Componente componente = componenteRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Componente não encontrado: " + id));
+
+        return ComponenteResponse.fromEntity(componente);
+    }
+}
